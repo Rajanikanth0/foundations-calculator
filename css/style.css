@@ -52,6 +52,9 @@ body {
 }
 .special-keys {
   flex: 1;
+  
+  display: flex; gap: 2%;
+  flex-direction: column;
 }
 
 .num-keys {
@@ -71,8 +74,11 @@ body {
   flex-basis: 32%;
   border: thin solid black;
 }
-
 .symbol-key {
+  flex: 1;
+  border: thin solid black;
+}
+.special-key {
   flex: 1;
   border: thin solid black;
 }
