@@ -45,7 +45,7 @@ symbol_keyBack.appendChild(symbol_keys);
 
 // special keys
 
-const special_keysArray = ['Clear', '=', '=', '='];
+const special_keysArray = ['Clear', ' ', ' ', '='];
 const special_keys = getGrid(special_keysArray, 4, "special-key");
 
 const special_keyBack = cal_keys.querySelector(".special-keys");

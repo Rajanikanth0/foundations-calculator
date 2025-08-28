@@ -16,6 +16,7 @@
 
 body {
   margin: 20px;
+  font-family: sans-serif;
 }
 
 .cal-back {
@@ -36,6 +37,12 @@ body {
 
 .cal-display {
   flex: 1;
+  font-size: 2.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 }
 .cal-keys {
   flex: 3;
