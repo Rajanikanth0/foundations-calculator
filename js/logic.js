@@ -19,7 +19,7 @@ function getGrid(keys, count, class_name) {
   for (let index = 0; index < count; index ++) {
     const cell = document.createElement("div");
     cell.textContent = keys[index];
-    cell.setAttribute("class", class_name);
+    cell.setAttribute("class", class_name + " align-center");
 
     cell_container.appendChild(cell);
   }
