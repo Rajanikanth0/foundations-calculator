@@ -28,6 +28,7 @@ function getGrid(keys, count, class_name) {
 }
 
 const calc_keys = document.querySelector(".calc-keys");
+const calc_display = document.querySelector(".calc-display");
 
 // number keys
 const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
@@ -50,3 +51,15 @@ const special_keys = getGrid(special_keysArray, 4, "special-key");
 
 const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
+
+// event listeners
+function addToDisplay(e) {
+  const target = e.target;
+
+  if (target.classList[0] == "num-key") {
+    const text = calc_display.textContent += target.textContent;
+    calc_display.textContent = text;
+  }
+}
+
+calc_keys.addEventListener("click", addToDisplay);
