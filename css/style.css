@@ -1,6 +1,7 @@
 .edge-border {
   border: thin solid black;
   border-radius: 5px;
+  padding: 10px;
 }
 
 * {
@@ -17,6 +18,8 @@ body {
   height: 300px;
 
   padding: 20px;
+  border: thin solid black;
+  border-radius: 5px;
 }
 
 .cal-elements {
@@ -31,4 +34,24 @@ body {
 }
 .cal-keys {
   flex: 3;
+
+  display: flex;
+  gap: 10px;
+}
+
+.num-symbolKeys {
+  flex: 4;
+
+  display: flex;
+  gap: 10px;
+}
+.num-keys {
+  flex: 4;
+}
+.symbol-keys {
+  flex: 1;
+}
+
+.special-keys {
+  flex: 1;
 }
