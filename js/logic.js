@@ -5,5 +5,10 @@ const cal = {
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
     "/": (a, b) => a / b
+  },
+
+  operate: function(a, op, b) {
+    // call operations on oparands with numeric convertion
+    return this.cal_funs[op](+a, +b);
   }
 };
