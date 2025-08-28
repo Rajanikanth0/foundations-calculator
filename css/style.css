@@ -1,0 +1,34 @@
+.edge-border {
+  border: thin solid black;
+  border-radius: 5px;
+}
+
+* {
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 20px;
+}
+
+.cal-back {
+  width: 400px;
+  height: 300px;
+
+  padding: 20px;
+}
+
+.cal-elements {
+  height: 100%;
+
+  display: flex; gap: 10px;
+  flex-direction: column;
+}
+
+.cal-display {
+  flex: 1;
+}
+.cal-keys {
+  flex: 3;
+}
