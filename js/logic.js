@@ -1,6 +1,6 @@
-const cal = {
+const calc = {
   // calculator operations
-  cal_funs: {
+  calc_funs: {
     "+": (a, b) => a + b,
     "-": (a, b) => a - b,
     "*": (a, b) => a * b,
@@ -9,7 +9,7 @@ const cal = {
 
   operate: function(a, op, b) {
     // call operations on oparands with numeric convertion
-    return this.cal_funs[op](+a, +b);
+    return this.calc_funs[op](+a, +b);
   }
 };
 
@@ -27,20 +27,20 @@ function getGrid(keys, count, class_name) {
   return cell_container;
 }
 
-const cal_keys = document.querySelector(".cal-keys");
+const calc_keys = document.querySelector(".calc-keys");
 
 // number keys
 const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
 const num_keys = getGrid(num_keysArray, 12, "num-key");
 
-const num_keyBack = cal_keys.querySelector(".num-keys");
+const num_keyBack = calc_keys.querySelector(".num-keys");
 num_keyBack.appendChild(num_keys);
 
 // symbol keys
 const symbol_keysArray = ['+', '-', '*', '/'];
 const symbol_keys = getGrid(symbol_keysArray, 4, "symbol-key");
 
-const symbol_keyBack = cal_keys.querySelector(".symbol-keys");
+const symbol_keyBack = calc_keys.querySelector(".symbol-keys");
 symbol_keyBack.appendChild(symbol_keys);
 
 // special keys
@@ -48,5 +48,5 @@ symbol_keyBack.appendChild(symbol_keys);
 const special_keysArray = ['Clear', ' ', ' ', '='];
 const special_keys = getGrid(special_keysArray, 4, "special-key");
 
-const special_keyBack = cal_keys.querySelector(".special-keys");
+const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);

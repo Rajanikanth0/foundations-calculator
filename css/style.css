@@ -19,7 +19,7 @@ body {
   font-family: sans-serif;
 }
 
-.cal-back {
+.calc-back {
   width: 400px;
   height: 300px;
 
@@ -28,14 +28,14 @@ body {
   border-radius: 5px;
 }
 
-.cal-elements {
+.calc-elements {
   height: 100%;
 
   display: flex; gap: 10px;
   flex-direction: column;
 }
 
-.cal-display {
+.calc-display {
   flex: 1;
   font-size: 2.5rem;
 
@@ -44,7 +44,7 @@ body {
   justify-content: center;
   align-items: flex-end;
 }
-.cal-keys {
+.calc-keys {
   flex: 3;
 
   display: flex;
