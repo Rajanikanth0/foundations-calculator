@@ -8,6 +8,7 @@ const calc = {
   },
 
   operate: function(a, op, b) {
+    this.a = +a; this.op = op; this.b = +b;
     // call operations on oparands with numeric convertion
     return this.calc_funs[op](+a, +b);
   }
@@ -57,8 +58,8 @@ function addToDisplay(e) {
   const target = e.target;
 
   if (target.classList[0] == "num-key") {
-    const text = calc_display.textContent += target.textContent;
-    calc_display.textContent = text;
+    calc.display_text = calc_display.textContent += target.textContent;
+    calc_display.textContent = calc.display_text;
   }
 }
 
