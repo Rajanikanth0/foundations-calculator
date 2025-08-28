@@ -14,14 +14,13 @@ const cal = {
 };
 
 // add keypad grid
-function getGrid() {
+function getGrid(keys, count, class_name) {
   const cell_container = document.createDocumentFragment();
-  const num_keys = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
 
-  for (let index = 0; index < 12; index ++) {
+  for (let index = 0; index < count; index ++) {
     const cell = document.createElement("div");
-    cell.textContent = num_keys[index];
-    cell.setAttribute("class", "num-key");
+    cell.textContent = keys[index];
+    cell.setAttribute("class", class_name);
 
     cell_container.appendChild(cell);
   }
@@ -29,6 +28,7 @@ function getGrid() {
   return cell_container;
 }
 
-const num_keys = getGrid();
+const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
+const num_keys = getGrid(num_keysArray, 12, "num-key");
 const num_keyBack = document.querySelector(".num-keys");
 num_keyBack.appendChild(num_keys);
