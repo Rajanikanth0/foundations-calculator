@@ -57,10 +57,22 @@ body {
 }
 .symbol-keys {
   flex: 1;
+
+  display: flex; gap: 2%;
+  flex-direction: column;
 }
 
 .num-key {
   flex-basis: 32%;
+  border: thin solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.symbol-key {
+  flex: 1;
   border: thin solid black;
 
   display: flex;
