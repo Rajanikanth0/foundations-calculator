@@ -45,13 +45,25 @@ body {
   display: flex;
   gap: 10px;
 }
+.special-keys {
+  flex: 1;
+}
+
 .num-keys {
   flex: 4;
+
+  display: flex; gap: 2%;
+  flex-wrap: wrap;
 }
 .symbol-keys {
   flex: 1;
 }
 
-.special-keys {
-  flex: 1;
+.num-key {
+  flex-basis: 32%;
+  border: thin solid black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
