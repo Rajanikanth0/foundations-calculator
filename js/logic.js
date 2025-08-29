@@ -4,6 +4,7 @@ const calc_keys = document.querySelector(".calc-keys");
 const calc = {
   // default display Text
   display_text: "",
+  clear: false,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -13,7 +14,16 @@ const calc = {
 
   // calculate
   operate: function() {
-    this.display_text = this[this.op]();
+    const [a, op, b] = this.display_text.trimEnd().split(' ');
+    
+    if (b == undefined) return;
+
+    // get operand 1, operator, operand 2
+    this.a = +a; this.op = op; this.b = +b;
+
+    this.display_text = String( this[this.op]() );
+
+    this.print();
   },
 
   // print to display
@@ -66,29 +76,28 @@ function addToDisplay(e) {
 
   switch (target.classList[0]) {
     case "num-key":
+      if (calc.clear) break;
+
       calc.display_text += target.textContent;
       calc.print();
       break;
 
     case "symbol-key":
-      // set operand 1 (numeric)
-      calc.a = +calc.display_text;
+      calc.display_text += ' ';
 
-      calc.display_text = target.textContent;
+      calc.display_text += target.textContent;
       calc.print();
 
-      // set operator
-      calc.op = calc.display_text;
-      calc.display_text = "";
+      calc.display_text += ' ';
+
+      calc.clear = false;
       break;
 
     case "special-key":
-      // set operand 2 (numeric)
-      calc.b = +calc.display_text;
-
       // result
       calc.operate();
       calc.print();
+      calc.clear = true;
   }
 }
 
