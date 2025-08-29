@@ -5,6 +5,7 @@ const calc = {
   // default display Text
   display_text: "",
   clear: false,
+  already: false,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -80,9 +81,13 @@ function addToDisplay(e) {
 
       calc.display_text += target.textContent;
       calc.print();
+
+      calc.already = false;
       break;
 
     case "symbol-key":
+      if (calc.already) break;
+
       calc.display_text += ' ';
 
       calc.display_text += target.textContent;
@@ -91,13 +96,16 @@ function addToDisplay(e) {
       calc.display_text += ' ';
 
       calc.clear = false;
+      calc.already = true;
       break;
 
     case "special-key":
       // result
       calc.operate();
       calc.print();
+      
       calc.clear = true;
+      calc.already = false;
   }
 }
 
