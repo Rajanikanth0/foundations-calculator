@@ -1,18 +1,28 @@
+const calc_display = document.querySelector(".calc-display");
+const calc_keys = document.querySelector(".calc-keys");
+
 const calc = {
+  // default display Text
+  display_text: "",
+
   // calculator operations
-  calc_funs: {
-    "+": (a, b) => a + b,
-    "-": (a, b) => a - b,
-    "*": (a, b) => a * b,
-    "/": (a, b) => a / b
+  '+': function() {return this.a + this.b},
+  '-': function() {return this.a - this.b},
+  '*': function() {return this.a * this.b},
+  '/': function() {return this.a / this.b},
+
+  // calculate
+  operate: function() {
+    this.display_text = this[this.op]();
   },
 
-  operate: function(a, op, b) {
-    this.a = +a; this.op = op; this.b = +b;
-    // call operations on oparands with numeric convertion
-    return this.calc_funs[op](+a, +b);
+  // print to display
+  print: function() {
+    calc_display.textContent = this.display_text;
   }
 };
+
+// ui
 
 function getGrid(keys, count, class_name) {
   const cell_container = document.createDocumentFragment();
@@ -27,9 +37,6 @@ function getGrid(keys, count, class_name) {
 
   return cell_container;
 }
-
-const calc_keys = document.querySelector(".calc-keys");
-const calc_display = document.querySelector(".calc-display");
 
 // number keys
 const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
@@ -47,7 +54,7 @@ symbol_keyBack.appendChild(symbol_keys);
 
 // special keys
 
-const special_keysArray = ['Clear', ' ', ' ', '='];
+const special_keysArray = [' ', ' ', ' ', '='];
 const special_keys = getGrid(special_keysArray, 4, "special-key");
 
 const special_keyBack = calc_keys.querySelector(".special-keys");
@@ -57,9 +64,31 @@ special_keyBack.appendChild(special_keys);
 function addToDisplay(e) {
   const target = e.target;
 
-  if (target.classList[0] == "num-key") {
-    calc.display_text = calc_display.textContent += target.textContent;
-    calc_display.textContent = calc.display_text;
+  switch (target.classList[0]) {
+    case "num-key":
+      calc.display_text += target.textContent;
+      calc.print();
+      break;
+
+    case "symbol-key":
+      // set operand 1 (numeric)
+      calc.a = +calc.display_text;
+
+      calc.display_text = target.textContent;
+      calc.print();
+
+      // set operator
+      calc.op = calc.display_text;
+      calc.display_text = "";
+      break;
+
+    case "special-key":
+      // set operand 2 (numeric)
+      calc.b = +calc.display_text;
+
+      // result
+      calc.operate();
+      calc.print();
   }
 }
 
