@@ -4,8 +4,10 @@ const calc_keys = document.querySelector(".calc-keys");
 const calc = {
   // default display Text
   display_text: "",
+
+  // pervent accidental clicks
   clear: false,
-  already: false,
+  already: true,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -15,15 +17,33 @@ const calc = {
 
   // calculate
   operate: function() {
-    const [a, op, b] = this.display_text.trimEnd().split(' ');
-    
-    if (b == undefined) return;
 
-    // get operand 1, operator, operand 2
-    this.a = +a; this.op = op; this.b = +b;
+    // calculation for multiple operator
+    const solve = (equation, regex) => {
+      let op_splitLen = equation.join('').split(regex).length - 1;
 
-    this.display_text = String( this[this.op]() );
+      for (let index = 0; index < op_splitLen; index++) {
+        let op_index = equation.findIndex(item => regex.test(item));
+        
+        this.a = +equation[op_index - 1];
+        this.b = +equation[op_index + 1];
+        this.op = equation[op_index];
 
+        const total = this[this.op]();
+        equation.splice(op_index - 1, 3, total);
+      }
+
+      return equation;
+    }
+
+    // convert to string then split on whitespaces
+    let equation = String( this.display_text ).split(/\s/);
+
+    equation = solve(equation, /[\*\/]/);
+    equation = solve(equation, /[\+\-]/);
+
+    // show result
+    this.display_text = equation;
     this.print();
   },
 
@@ -34,7 +54,6 @@ const calc = {
 };
 
 // ui
-
 function getGrid(keys, count, class_name) {
   const cell_container = document.createDocumentFragment();
 
