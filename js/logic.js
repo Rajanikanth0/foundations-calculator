@@ -6,8 +6,8 @@ const calc = {
   display_text: "",
 
   // pervent accidental clicks
-  clear: false,
-  already: true,
+  disable_numpad: false,
+  disable_symbol: true,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -96,16 +96,16 @@ function addToDisplay(e) {
 
   switch (target.classList[0]) {
     case "num-key":
-      if (calc.clear) break;
+      if (calc.disable_numpad) break;
 
       calc.display_text += target.textContent;
       calc.print();
 
-      calc.already = false;
+      calc.disable_symbol = false;
       break;
 
     case "symbol-key":
-      if (calc.already) break;
+      if (calc.disable_symbol) break;
 
       calc.display_text += ' ';
 
@@ -114,17 +114,22 @@ function addToDisplay(e) {
 
       calc.display_text += ' ';
 
-      calc.clear = false;
-      calc.already = true;
+      calc.disable_numpad = false;
+      calc.disable_symbol = true;
       break;
 
     case "special-key":
+      // prevent leading operator
+      if (calc.disable_symbol == true) {
+        calc.display_text = calc.display_text.slice(0, -3);
+      }
+
       // result
       calc.operate();
       calc.print();
       
-      calc.clear = true;
-      calc.already = false;
+      calc.disable_numpad = true;
+      calc.disable_symbol = false;
   }
 }
 
