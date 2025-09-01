@@ -18,7 +18,7 @@ const calc = {
   // calculate
   operate: function() {
 
-    // calculation for multiple operator
+    // calculation of equation
     const solve = (equation, regex) => {
       let op_splitLen = equation.join('').split(regex).length - 1;
 
