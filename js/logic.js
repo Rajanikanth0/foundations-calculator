@@ -8,7 +8,7 @@ const calc = {
 
   // pervent accidental clicks
   disable_numpad: false,
-  disable_symbol: false,
+  disable_symbol: true,
   disable_special: true,
 
   // calculator operations
@@ -24,6 +24,7 @@ const calc = {
 
   // print to display
   print: function() {
+    console.log(`${this.a}, ${this.op}, ${this.b}`);
     calc_display.textContent = `${this.a} ${this.op} ${this.b}`;
   }
 };
@@ -68,6 +69,7 @@ special_keyBack.appendChild(special_keys);
 // Event Listeners
 let x = "";
 let change = true;
+let change_op = true;
 
 function getUserInput(e) {
   const target = e.target;
@@ -77,14 +79,23 @@ function getUserInput(e) {
       x = x + target.textContent;
 
       // operand choice
-      if (change) calc.a = +x;
-      else calc.b = +x;
+      if (change) {
+        calc.a = Number(calc.a + x);
+      } else {
+        calc.b = +x;
+      }
 
       calc.print();
       break;
 
     case "symbol-key":
       calc.op = target.textContent;
+
+      if (change) {
+        if ( ["", "-", "+"].includes(calc.a) ) {
+
+        }
+      }
 
       // assign to next operand
       x = ""; change = false;
