@@ -2,12 +2,12 @@ const calc_display = document.querySelector(".calc-display");
 const calc_keys = document.querySelector(".calc-keys");
 
 const calc = {
-  // default display Text
+  // output display text content
   display_text: "",
 
   // pervent accidental clicks
   disable_numpad: false,
-  disable_symbol: true,
+  disable_symbol: false,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -17,34 +17,7 @@ const calc = {
 
   // calculate
   operate: function() {
-
-    // calculation of equation
-    const solve = (equation, regex) => {
-      let op_splitLen = equation.join('').split(regex).length - 1;
-
-      for (let index = 0; index < op_splitLen; index++) {
-        let op_index = equation.findIndex(item => regex.test(item));
-        
-        this.a = +equation[op_index - 1];
-        this.b = +equation[op_index + 1];
-        this.op = equation[op_index];
-
-        const total = this[this.op]();
-        equation.splice(op_index - 1, 3, total);
-      }
-
-      return equation;
-    }
-
-    // convert to string then split on whitespaces
-    let equation = String( this.display_text ).split(/\s/);
-
-    equation = solve(equation, /[\*\/]/);
-    equation = solve(equation, /[\+\-]/);
-
-    // show result
-    this.display_text = equation;
-    this.print();
+    return this[this.op]();
   },
 
   // print to display
@@ -90,47 +63,54 @@ const special_keys = getGrid(special_keysArray, 4, "special-key");
 const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
 
-// event listeners
-function addToDisplay(e) {
+// Event Listeners
+
+// combine multiple number-character
+let operand = "";
+
+function getUserInput(e) {
   const target = e.target;
 
   switch (target.classList[0]) {
     case "num-key":
-      if (calc.disable_numpad) break;
+      const num_key = target.textContent;
 
-      calc.display_text += target.textContent;
+      operand = operand + num_key;
+      calc.display_text = calc.display_text + num_key;
+
       calc.print();
 
-      calc.disable_symbol = false;
       break;
 
     case "symbol-key":
-      if (calc.disable_symbol) break;
+      const symbol_key = target.textContent;
 
-      calc.display_text += ' ';
-
-      calc.display_text += target.textContent;
+      // set operand 1
+      calc.a = +operand;
+      // set operator
+      calc.op = symbol_key;
+      
+      operand = "";
+      calc.display_text = `${calc.display_text} ${calc.op} `;
+      
       calc.print();
 
-      calc.display_text += ' ';
-
-      calc.disable_numpad = false;
-      calc.disable_symbol = true;
       break;
 
     case "special-key":
-      // prevent leading operator
-      if (calc.disable_symbol == true) {
-        calc.display_text = calc.display_text.slice(0, -3);
-      }
+      // set operand 2
+      calc.b = +operand;
 
-      // result
-      calc.operate();
+      calc.display_text = calc.display_text + calc.b;
       calc.print();
-      
-      calc.disable_numpad = true;
-      calc.disable_symbol = false;
+
+      // get operand 1
+      operand = calc.operate();
+      calc.display_text = operand;
+      calc.print();
+
+      break;
   }
 }
 
-calc_keys.addEventListener("click", addToDisplay);
+calc_keys.addEventListener("click", getUserInput);
