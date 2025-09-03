@@ -76,24 +76,30 @@ function getUserInput(e) {
       const num_key = target.textContent;
 
       operand = operand + num_key;
-      calc.display_text = calc.display_text + num_key;
 
+      calc.display_text = calc.display_text + num_key;
       calc.print();
 
       break;
 
     case "symbol-key":
+      if (calc.disable_symbol) return;
+
       const symbol_key = target.textContent;
+
+      // set operator
+      calc.op = symbol_key;
 
       // set operand 1
       calc.a = +operand;
-      // set operator
-      calc.op = symbol_key;
-      
+
+      // empty operand to add next operand
       operand = "";
+
       calc.display_text = `${calc.display_text} ${calc.op} `;
-      
       calc.print();
+
+      calc.disable_symbol = true;
 
       break;
 
@@ -106,8 +112,11 @@ function getUserInput(e) {
 
       // get operand 1
       operand = calc.operate();
+
       calc.display_text = operand;
       calc.print();
+
+      calc.disable_symbol = false;
 
       break;
   }
