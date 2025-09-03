@@ -46,8 +46,8 @@ function getGrid(keys, count, class_name) {
 }
 
 // number keys
-const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.', '-'];
-const num_keys = getGrid(num_keysArray, 12, "num-key");
+const num_keysArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '.'];
+const num_keys = getGrid(num_keysArray, 11, "num-key");
 
 const num_keyBack = calc_keys.querySelector(".num-keys");
 num_keyBack.appendChild(num_keys);
