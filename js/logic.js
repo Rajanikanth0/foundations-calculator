@@ -2,6 +2,7 @@ const calc_display = document.querySelector(".calc-display");
 const calc_keys = document.querySelector(".calc-keys");
 
 const calc = {
+  a: "", op: "", b: "",
   // output display text content
   display_text: "",
 
@@ -23,7 +24,7 @@ const calc = {
 
   // print to display
   print: function() {
-    calc_display.textContent = this.display_text;
+    calc_display.textContent = `${this.a} ${this.op} ${this.b}`;
   }
 };
 
@@ -65,68 +66,38 @@ const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
 
 // Event Listeners
-
-// combine multiple number-characters
-let operand = "";
+let x = "";
+let change = true;
 
 function getUserInput(e) {
   const target = e.target;
 
   switch (target.classList[0]) {
     case "num-key":
-      if (calc.disable_numpad) return;
+      x = x + target.textContent;
 
-      const num_key = target.textContent;
-      
-      // get complete operand [multiple digits]
-      operand = operand + num_key;
+      // operand choice
+      if (change) calc.a = +x;
+      else calc.b = +x;
 
-      calc.display_text = calc.display_text + num_key;
       calc.print();
-
       break;
 
     case "symbol-key":
-      if (calc.disable_symbol) return;
+      calc.op = target.textContent;
 
-      const symbol_key = target.textContent;
+      // assign to next operand
+      x = ""; change = false;
 
-      // set operator
-      calc.op = symbol_key;
-      // set operand 1
-      calc.a = +operand;
-      // empty operand to add next operand
-      operand = "";
-
-      calc.display_text = `${calc.display_text} ${calc.op} `;
       calc.print();
-
-      calc.disable_symbol = true;
-      calc.disable_special = false;
-      calc.disable_numpad = false;
-
       break;
 
     case "special-key":
-      // set operand 2
-      calc.b = +operand;
+      // reset all values
+      calc.a = calc.operate();
+      calc.op = calc.b = "";
 
-      // ignore if operand 2 has not found
-      if (calc.disable_special || !calc.b) return;
-
-      calc.display_text = calc.display_text + calc.b;
       calc.print();
-
-      // get operand 1
-      operand = calc.operate();
-
-      calc.display_text = operand;
-      calc.print();
-
-      calc.disable_symbol = false;
-      calc.disable_special = true;
-      calc.disable_numpad = true;
-
       break;
   }
 }
