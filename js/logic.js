@@ -8,7 +8,7 @@ const calc = {
 
   // pervent accidental clicks
   disable_numpad: false,
-  disable_symbol: true,
+  disable_symbol: false,
   disable_special: true,
 
   // calculator operations
@@ -67,38 +67,51 @@ const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
 
 // Event Listeners
-let x = "";
-let change = true;
-let change_op = true;
+let operand = "";
+let first_operand = true;
 
 function getUserInput(e) {
   const target = e.target;
 
   switch (target.classList[0]) {
     case "num-key":
-      x = x + target.textContent;
+      operand = operand + target.textContent;
 
       // operand choice
-      if (change) {
-        calc.a = Number(calc.a + x);
+      if (first_operand) {
+        calc.a = +operand;
       } else {
-        calc.b = +x;
+        calc.b = +operand;
       }
 
       calc.print();
       break;
 
     case "symbol-key":
-      calc.op = target.textContent;
+      const key = target.textContent;
 
-      if (change) {
-        if ( ["", "-", "+"].includes(calc.a) ) {
+      if (first_operand) {
+        const options = ["", "-", "+"];
 
+        if ( options.includes(calc.a) ) {
+          if ( options.includes(key) ) {
+            operand = key;
+            // to print on display
+            calc.a = key;
+
+            calc.print();
+          }
+          return;
         }
       }
+      
+      if (calc.disable_symbol) return;
 
+      calc.op = key;
       // assign to next operand
-      x = ""; change = false;
+      operand = ""; first_operand = false;
+
+      calc.disable_symbol = true;
 
       calc.print();
       break;
@@ -107,6 +120,8 @@ function getUserInput(e) {
       // reset all values
       calc.a = calc.operate();
       calc.op = calc.b = "";
+
+      calc.disable_symbol = false;
 
       calc.print();
       break;
