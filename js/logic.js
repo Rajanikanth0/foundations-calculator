@@ -19,7 +19,8 @@ const calc = {
 
   // calculate
   operate: function() {
-    return this[this.op]();
+    const total = this[this.op]();
+    return +total.toFixed(2);
   },
 
   // print to display
