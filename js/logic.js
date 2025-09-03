@@ -3,13 +3,11 @@ const calc_keys = document.querySelector(".calc-keys");
 
 const calc = {
   a: "", op: "", b: "",
-  // output display text content
-  display_text: "",
+  operand: "", first_operand: true,
 
   // pervent accidental clicks
   disable_numpad: false,
   disable_symbol: false,
-  disable_special: true,
 
   // calculator operations
   '+': function() {return +this.a + +this.b},
@@ -25,6 +23,7 @@ const calc = {
 
   // print to display
   print: function() {
+    console.log( `${this.a} ${this.op} ${this.b}` );
     calc_display.textContent = `${this.a} ${this.op} ${this.b}`;
   }
 };
@@ -60,15 +59,22 @@ const symbol_keyBack = calc_keys.querySelector(".symbol-keys");
 symbol_keyBack.appendChild(symbol_keys);
 
 // special keys
-const special_keysArray = [' ', ' ', ' ', '='];
+const special_keysArray = ['clear', ' ', ' ', '='];
 const special_keys = getGrid(special_keysArray, 4, "special-key");
 
 const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
 
 // Event Listeners
-let operand = "";
-let first_operand = true;
+function resetAll() {
+  calc.a = ""; calc.b = ""; calc.op = "";
+  calc.operand = ""; calc.first_operand = true;
+
+  calc.disable_numpad = false;
+  calc.disable_symbol = false;
+
+  calc.print();
+}
 
 function getUserInput(e) {
   const target = e.target;
@@ -77,13 +83,13 @@ function getUserInput(e) {
     case "num-key":
       if (calc.disable_numpad) return;
       
-      operand = operand + target.textContent;
+      calc.operand = calc.operand + target.textContent;
 
       // operand choice
-      if (first_operand) {
-        calc.a = operand;
+      if (calc.first_operand) {
+        calc.a = calc.operand;
       } else {
-        calc.b = operand;
+        calc.b = calc.operand;
       }
 
       calc.print();
@@ -92,12 +98,12 @@ function getUserInput(e) {
     case "symbol-key":
       const key = target.textContent;
 
-      if (first_operand) {
+      if (calc.first_operand) {
         const options = ["", "-", "+"];
 
         if ( options.includes(calc.a) ) {
           if ( options.includes(key) ) {
-            operand = key;
+            calc.operand = key;
             // to print on display
             calc.a = key;
 
@@ -111,7 +117,7 @@ function getUserInput(e) {
 
       calc.op = key;
       // assign to next operand
-      operand = ""; first_operand = false;
+      calc.operand = ""; calc.first_operand = false;
 
       calc.disable_symbol = true;
       calc.disable_numpad = false;
@@ -120,6 +126,10 @@ function getUserInput(e) {
       break;
 
     case "special-key":
+      if (target.textContent == "clear") {
+        resetAll();
+      }
+
       if (calc.b == "") return;
 
       // reset all values
