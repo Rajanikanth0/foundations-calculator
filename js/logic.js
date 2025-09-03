@@ -8,6 +8,7 @@ const calc = {
   // pervent accidental clicks
   disable_numpad: false,
   disable_symbol: false,
+  disable_special: true,
 
   // calculator operations
   '+': function() {return this.a + this.b},
@@ -73,8 +74,11 @@ function getUserInput(e) {
 
   switch (target.classList[0]) {
     case "num-key":
-      const num_key = target.textContent;
+      if (calc.disable_numpad) return;
 
+      const num_key = target.textContent;
+      
+      // get complete operand [multiple digits]
       operand = operand + num_key;
 
       calc.display_text = calc.display_text + num_key;
@@ -89,10 +93,8 @@ function getUserInput(e) {
 
       // set operator
       calc.op = symbol_key;
-
       // set operand 1
       calc.a = +operand;
-
       // empty operand to add next operand
       operand = "";
 
@@ -100,12 +102,17 @@ function getUserInput(e) {
       calc.print();
 
       calc.disable_symbol = true;
+      calc.disable_special = false;
+      calc.disable_numpad = false;
 
       break;
 
     case "special-key":
       // set operand 2
       calc.b = +operand;
+
+      // ignore if operand 2 has not found
+      if (calc.disable_special || !calc.b) return;
 
       calc.display_text = calc.display_text + calc.b;
       calc.print();
@@ -117,6 +124,8 @@ function getUserInput(e) {
       calc.print();
 
       calc.disable_symbol = false;
+      calc.disable_special = true;
+      calc.disable_numpad = true;
 
       break;
   }
