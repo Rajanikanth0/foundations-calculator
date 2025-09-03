@@ -26,7 +26,8 @@ const calc = {
   }
 };
 
-// ui
+// UI
+
 function getGrid(keys, count, class_name) {
   const cell_container = document.createDocumentFragment();
 
@@ -56,7 +57,6 @@ const symbol_keyBack = calc_keys.querySelector(".symbol-keys");
 symbol_keyBack.appendChild(symbol_keys);
 
 // special keys
-
 const special_keysArray = [' ', ' ', ' ', '='];
 const special_keys = getGrid(special_keysArray, 4, "special-key");
 
@@ -65,7 +65,7 @@ special_keyBack.appendChild(special_keys);
 
 // Event Listeners
 
-// combine multiple number-character
+// combine multiple number-characters
 let operand = "";
 
 function getUserInput(e) {
