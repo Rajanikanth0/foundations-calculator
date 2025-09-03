@@ -12,10 +12,10 @@ const calc = {
   disable_special: true,
 
   // calculator operations
-  '+': function() {return this.a + this.b},
-  '-': function() {return this.a - this.b},
-  '*': function() {return this.a * this.b},
-  '/': function() {return this.a / this.b},
+  '+': function() {return +this.a + +this.b},
+  '-': function() {return +this.a - +this.b},
+  '*': function() {return +this.a * +this.b},
+  '/': function() {return +this.a / +this.b},
 
   // calculate
   operate: function() {
@@ -75,14 +75,14 @@ function getUserInput(e) {
   switch (target.classList[0]) {
     case "num-key":
       if (calc.disable_numpad) return;
-
+      
       operand = operand + target.textContent;
 
       // operand choice
       if (first_operand) {
-        calc.a = +operand;
+        calc.a = operand;
       } else {
-        calc.b = +operand;
+        calc.b = operand;
       }
 
       calc.print();
