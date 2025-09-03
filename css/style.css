@@ -1,3 +1,7 @@
+body {
+  cursor: pointer;
+}
+
 .edge-border {
   border: thin solid black;
   border-radius: 5px;
