@@ -8,6 +8,7 @@ const calc = {
   // pervent accidental clicks
   disable_numpad: false,
   disable_symbol: false,
+  disable_dot: false,
 
   // calculator operations
   '+': function() {return +this.a + +this.b},
@@ -27,6 +28,17 @@ const calc = {
     calc_display.textContent = `${this.a} ${this.op} ${this.b}`;
   }
 };
+
+function resetAll() {
+  calc.a = ""; calc.b = ""; calc.op = "";
+  calc.operand = ""; calc.first_operand = true;
+
+  calc.disable_numpad = false;
+  calc.disable_symbol = false;
+  calc.disable_dot = false;
+
+  calc.print();
+}
 
 // UI
 
@@ -66,15 +78,6 @@ const special_keyBack = calc_keys.querySelector(".special-keys");
 special_keyBack.appendChild(special_keys);
 
 // Event Listeners
-function resetAll() {
-  calc.a = ""; calc.b = ""; calc.op = "";
-  calc.operand = ""; calc.first_operand = true;
-
-  calc.disable_numpad = false;
-  calc.disable_symbol = false;
-
-  calc.print();
-}
 
 function getUserInput(e) {
   const target = e.target;
@@ -82,6 +85,7 @@ function getUserInput(e) {
   switch (target.classList[0]) {
     case "num-key":
       if (calc.disable_numpad) return;
+      if ( target.textContent == '.' && calc.disable_dot ) return;
       
       calc.operand = calc.operand + target.textContent;
 
@@ -90,6 +94,10 @@ function getUserInput(e) {
         calc.a = calc.operand;
       } else {
         calc.b = calc.operand;
+      }
+
+      if ( calc.operand.includes(".") ) {
+        calc.disable_dot = true;
       }
 
       calc.print();
@@ -121,6 +129,7 @@ function getUserInput(e) {
 
       calc.disable_symbol = true;
       calc.disable_numpad = false;
+      calc.disable_dot = false;
 
       calc.print();
       break;
