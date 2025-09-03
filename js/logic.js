@@ -24,7 +24,6 @@ const calc = {
 
   // print to display
   print: function() {
-    console.log(`${this.a}, ${this.op}, ${this.b}`);
     calc_display.textContent = `${this.a} ${this.op} ${this.b}`;
   }
 };
@@ -75,6 +74,8 @@ function getUserInput(e) {
 
   switch (target.classList[0]) {
     case "num-key":
+      if (calc.disable_numpad) return;
+
       operand = operand + target.textContent;
 
       // operand choice
@@ -104,7 +105,7 @@ function getUserInput(e) {
           return;
         }
       }
-      
+
       if (calc.disable_symbol) return;
 
       calc.op = key;
@@ -112,16 +113,20 @@ function getUserInput(e) {
       operand = ""; first_operand = false;
 
       calc.disable_symbol = true;
+      calc.disable_numpad = false;
 
       calc.print();
       break;
 
     case "special-key":
+      if (calc.b == "") return;
+
       // reset all values
       calc.a = calc.operate();
       calc.op = calc.b = "";
 
       calc.disable_symbol = false;
+      calc.disable_numpad = true;
 
       calc.print();
       break;
